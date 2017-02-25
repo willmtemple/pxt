@@ -102,7 +102,8 @@ export class ProjectView
         this.settings = JSON.parse(pxt.storage.getLocal("editorSettings") || "{}")
         this.state = {
             showFiles: false,
-            active: document.visibilityState == 'visible'
+            active: document.visibilityState == 'visible',
+            collapseEditorTools: pxt.appTarget.simulator.headless
         };
         if (!this.settings.editorFontSize) this.settings.editorFontSize = /mobile/i.test(navigator.userAgent) ? 15 : 20;
         if (!this.settings.fileHistory) this.settings.fileHistory = [];
@@ -914,6 +915,42 @@ export class ProjectView
         this.setState({ running: false })
     }
 
+    proxySimulatorMessage(content: string) {
+        simulator.proxy({
+            type: "custom",
+            content: content
+        } as pxsim.SimulatorCustomMessage);
+    }
+
+    toggleSimulatorCollapse() {
+        const state = this.state;
+        if (!state.running && state.collapseEditorTools)
+            this.startStopSimulator();
+
+        if (state.collapseEditorTools) {
+            this.expandSimulator();
+        }
+        else {
+            this.collapseSimulator();
+        }
+    }
+
+    expandSimulator() {
+        if (pxt.appTarget.simulator.headless) {
+            simulator.unhide();
+        }
+        else {
+            this.startSimulator();
+        }
+        this.setState({ collapseEditorTools: false });
+    }
+
+    collapseSimulator() {
+        simulator.hide(() => {
+            this.setState({ collapseEditorTools: true });
+        })
+    }
+
     toggleSimulatorFullscreen() {
         pxt.tickEvent("simulator.fullscreen", { view: 'computer', fullScreenTo: '' + !this.state.fullscreen });
         this.setState({ fullscreen: !this.state.fullscreen });
@@ -1196,6 +1233,7 @@ ${compileService ? `<p>${lf("{0} version:", "C++ runtime")} <a href="${Util.html
         // tutorial project is temporary, no need to delete
         let curr = pkg.mainEditorPkg().header
         curr.isDeleted = true
+        this.setState({ active: false });
         return workspace.saveAsync(curr, {})
             .then(() => {
                 if (workspace.getHeaders().length > 0) {
@@ -1204,7 +1242,7 @@ ${compileService ? `<p>${lf("{0} version:", "C++ runtime")} <a href="${Util.html
                     this.newProject();
                 }
             }).finally(() => {
-                this.setState({ tutorial: null, tutorialName: null, tutorialSteps: null, tutorialStep: -1 });
+                this.setState({ active: true, tutorial: null, tutorialName: null, tutorialSteps: null, tutorialStep: -1 });
             });
     }
 
