@@ -81,7 +81,7 @@ export class Editor extends srceditor.Editor {
                 .finally(() => { this.loadingXml = false })
                 .then(bi => {
                     this.blockInfo = bi;
-                    let showSearch = true;
+                    let showSearch = !pxt.shell.isJunior();
                     let toolbox = this.getDefaultToolbox(this.showToolboxCategories);
                     let tb = pxt.blocks.initBlocks(this.blockInfo, toolbox, this.showToolboxCategories, this.filters);
                     this.updateToolbox(tb, this.showToolboxCategories);

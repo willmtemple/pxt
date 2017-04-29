@@ -185,7 +185,7 @@ export class EditorToolbar extends data.Component<ISettingsProps, {}> {
                         {headless ?
                             <div className="left aligned six wide column">
                                 <div className="ui icon buttons">
-                                    <sui.Button icon={`${collapsed ? 'toggle up' : 'toggle down'}`} class={`collapse-button ${collapsed ? 'collapsed' : ''} ${hideEditorFloats ? 'disabled' : ''}`} title={collapseTooltip} onClick={() => this.toggleCollapse('tablet') } />
+                                    {collapsible ? <sui.Button icon={`${collapsed ? 'toggle up' : 'toggle down'}`} class={`collapse-button ${collapsed ? 'collapsed' : ''} ${hideEditorFloats ? 'disabled' : ''}`} title={collapseTooltip} onClick={() => this.toggleCollapse('tablet') } /> : undefined }
                                     {run ? <sui.Button role="menuitem" class={`play-button ${running ? "stop" : "play"}`} key='runmenubtn' icon={running ? "stop" : "play"} title={runTooltip} onClick={() => this.startStopSimulator('tablet') } /> : undefined }
                                     {restart ? <sui.Button key='restartbtn' class={`restart-button`} icon="refresh" title={restartTooltip} onClick={() => this.restartSimulator('tablet') } /> : undefined }
                                     {trace ? <sui.Button key='tracebtn' class={`trace-button ${tracing ? 'orange' : ''}`} icon="xicon turtle" title={traceTooltip} onClick={() => this.toggleTrace('tablet') } /> : undefined }
@@ -194,7 +194,7 @@ export class EditorToolbar extends data.Component<ISettingsProps, {}> {
                             </div> :
                             <div className="left aligned six wide column">
                                 <div className="ui icon buttons">
-                                    <sui.Button icon={`${collapsed ? 'toggle up' : 'toggle down'}`} class={`collapse-button ${collapsed ? 'collapsed' : ''} ${hideEditorFloats ? 'disabled' : ''}`} title={collapseTooltip} onClick={() => this.toggleCollapse('tablet') } />
+                                    {collapsible ? <sui.Button icon={`${collapsed ? 'toggle up' : 'toggle down'}`} class={`collapse-button ${collapsed ? 'collapsed' : ''} ${hideEditorFloats ? 'disabled' : ''}`} title={collapseTooltip} onClick={() => this.toggleCollapse('tablet') } /> : undefined }
                                     {compileBtn ? <sui.Button class={`primary download-button download-button-full ${compileLoading ? 'loading' : ''}`} icon="download" text={ lf("Download") } title={compileTooltip} onClick={() => this.compile('tablet') } /> : undefined }
                                 </div>
                             </div> }
@@ -221,11 +221,12 @@ export class EditorToolbar extends data.Component<ISettingsProps, {}> {
                                 {run ? <sui.Button role="menuitem" class={`play-button ${running ? "stop" : "play"}`} key='runmenubtn' icon={running ? "stop" : "play"} title={runTooltip} onClick={() => this.startStopSimulator('tablet') } /> : undefined }
                                 {restart ? <sui.Button key='restartbtn' class={`restart-button`} icon="refresh" title={restartTooltip} onClick={() => this.restartSimulator('tablet') } /> : undefined }
                             </div>
-                            <div className="row" style={{ paddingTop: "1rem" }}>
-                                <div className="ui vertical icon small buttons">
-                                    <sui.Button icon={`${collapsed ? 'toggle up' : 'toggle down'}`} class={`collapse-button ${collapsed ? 'collapsed' : ''}`} title={collapseTooltip} onClick={() => this.toggleCollapse('tablet') } />
-                                </div>
-                            </div>
+                            {collapsible ?
+                                <div className="row" style={{ paddingTop: "1rem" }}>
+                                    <div className="ui vertical icon small buttons">
+                                        <sui.Button icon={`${collapsed ? 'toggle up' : 'toggle down'}`} class={`collapse-button ${collapsed ? 'collapsed' : ''}`} title={collapseTooltip} onClick={() => this.toggleCollapse('tablet') } />
+                                    </div>
+                                </div> : undefined }
                         </div>
                         <div className="three wide column">
                         </div>
