@@ -84,6 +84,7 @@ export class EditorToolbar extends data.Component<ISettingsProps, {}> {
 
         const sandbox = pxt.shell.isSandboxMode();
         const readOnly = pxt.shell.isReadOnly();
+        const junior = pxt.shell.isJunior();
         const tutorial = tutorialOptions ? tutorialOptions.tutorial : false;
         const collapsed = hideEditorFloats || collapseEditorTools;
         const isEditor = this.props.parent.isBlocksEditor() || this.props.parent.isTextEditor();
@@ -105,14 +106,14 @@ export class EditorToolbar extends data.Component<ISettingsProps, {}> {
         const hasUndo = this.props.parent.editor.hasUndo();
         const hasRedo = this.props.parent.editor.hasRedo();
 
-        const showProjectRename = !tutorial && !readOnly;
-        const showUndoRedo = !tutorial && !readOnly;
-        const showZoomControls = !tutorial;
+        const showProjectRename = !junior && !tutorial && !readOnly;
+        const showUndoRedo = !junior && !tutorial && !readOnly;
+        const showZoomControls = !junior && !tutorial;
 
         const run = true;
-        const restart = run && !simOpts.hideRestart;
-        const trace = run && simOpts.enableTrace;
-        const tracing = this.props.parent.state.tracing;
+        const restart = !junior && run && !simOpts.hideRestart;
+        const trace = !junior && run && simOpts.enableTrace;
+        const tracing = !junior && this.props.parent.state.tracing;
         const traceTooltip = tracing ? lf("Disable Slow-Mo") : lf("Slow-Mo");
 
         return <div className="ui equal width grid right aligned padded">
@@ -129,7 +130,7 @@ export class EditorToolbar extends data.Component<ISettingsProps, {}> {
                             </div>
                         </div>
                         <div className="right aligned column">
-                            {!readOnly ?
+                            {!junior && !readOnly ?
                                 <div className="ui icon small buttons">
                                     <sui.Button icon='save' class="editortools-btn save-editortools-btn" title={lf("Save") } onClick={() => this.saveFile('mobile') } />
                                     <sui.Button icon='undo' class={`editortools-btn undo-editortools-btn} ${!hasUndo ? 'disabled' : ''}`} title={lf("Undo") } onClick={() => this.undo('mobile') } />

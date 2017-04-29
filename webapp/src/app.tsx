@@ -1520,9 +1520,10 @@ ${compileService ? `<p>${lf("{0} version:", "C++ runtime")} <a href="${Util.html
         //  ${targetTheme.accentColor ? "inverted accent " : ''}
         const settings: Cloud.UserSettings = (Cloud.isLoggedIn() ? this.getData("cloud:me/settings?format=nonsensitive") : {}) || {}
         const targetTheme = pxt.appTarget.appTheme;
-        const workspaces = pxt.appTarget.cloud && pxt.appTarget.cloud.workspaces;
-        const packages = pxt.appTarget.cloud && pxt.appTarget.cloud.packages;
-        const sharingEnabled = pxt.appTarget.cloud && pxt.appTarget.cloud.sharing;
+        const junior = pxt.shell.isJunior();
+        const workspaces = !junior && pxt.appTarget.cloud && pxt.appTarget.cloud.workspaces;
+        const packages = !junior && pxt.appTarget.cloud && pxt.appTarget.cloud.packages;
+        const sharingEnabled = !junior && pxt.appTarget.cloud && pxt.appTarget.cloud.sharing;
         const reportAbuse = pxt.appTarget.cloud && pxt.appTarget.cloud.sharing && pxt.appTarget.cloud.publishing && pxt.appTarget.cloud.importing;
         const compile = pxt.appTarget.compile;
         const compileBtn = compile.hasHex;
@@ -1538,17 +1539,17 @@ ${compileService ? `<p>${lf("{0} version:", "C++ runtime")} <a href="${Util.html
         const fullscreenTooltip = this.state.fullscreen ? lf("Exit fullscreen mode") : lf("Launch in fullscreen");
         const muteTooltip = this.state.mute ? lf("Unmute audio") : lf("Mute audio");
         const isBlocks = !this.editor.isVisible || this.getPreferredEditor() == pxt.BLOCKS_PROJECT_NAME;
-        const sideDocs = !(sandbox || targetTheme.hideSideDocs);
+        const sideDocs = !junior && !(sandbox || targetTheme.hideSideDocs);
         const tutorialOptions = this.state.tutorialOptions;
         const inTutorial = !!tutorialOptions && !!tutorialOptions.tutorial;
-        const docMenu = targetTheme.docMenu && targetTheme.docMenu.length && !sandbox && !inTutorial;
+        const docMenu = !junior && targetTheme.docMenu && targetTheme.docMenu.length && !sandbox && !inTutorial;
         const gettingStarted = !sandbox && !inTutorial && !this.state.sideDocsLoadUrl && targetTheme && targetTheme.sideDoc && isBlocks;
         const gettingStartedTooltip = lf("Open beginner tutorial");
         const run = true; // !compileBtn || !pxt.appTarget.simulator.autoRun || !isBlocks;
-        const restart = run && !simOpts.hideRestart;
-        const trace = run && simOpts.enableTrace;
-        const fullscreen = run && !inTutorial && !simOpts.hideFullscreen
-        const audio = run && !inTutorial && targetTheme.hasAudio;
+        const restart = !junior && run && !simOpts.hideRestart;
+        const trace = !junior && run && simOpts.enableTrace;
+        const fullscreen = !junior && run && !inTutorial && !simOpts.hideFullscreen
+        const audio = !junior && run && !inTutorial && targetTheme.hasAudio;
         const { hideMenuBar, hideEditorToolbar} = targetTheme;
         const isHeadless = simOpts.headless;
         const cookieKey = "cookieconsent"
@@ -1558,13 +1559,14 @@ ${compileService ? `<p>${lf("{0} version:", "C++ runtime")} <a href="${Util.html
         const javascriptActive = this.isJavaScriptActive();
         const traceTooltip = this.state.tracing ? lf("Disable Slow-Mo") : lf("Slow-Mo");
         const selectLanguage = targetTheme.selectLanguage;
+        const blocksToJavascript = !junior && !inTutorial && !targetTheme.blocksOnly;
 
         const consentCookie = () => {
             pxt.storage.setLocal(cookieKey, "1");
             this.forceUpdate();
         }
 
-        const showSideDoc = sideDocs && this.state.sideDocsLoadUrl && !this.state.sideDocsCollapsed;
+        const showSideDoc = !junior && sideDocs && this.state.sideDocsLoadUrl && !this.state.sideDocsCollapsed;
 
         // update window title
         document.title = this.state.header ? `${this.state.header.name} - ${pxt.appTarget.name}` : pxt.appTarget.name;
@@ -1604,7 +1606,7 @@ ${compileService ? `<p>${lf("{0} version:", "C++ runtime")} <a href="${Util.html
                                         <img className="ui mini image" src={Util.toDataUri(rightLogo) } onClick={() => this.launchFullEditor() } alt={`${targetTheme.boardName} Logo`}/>
                                     </span>
                                 </div> }
-                            {!inTutorial && !targetTheme.blocksOnly ? <sui.Item class="editor-menuitem">
+                            {blocksToJavascript ? <sui.Item class="editor-menuitem">
                                 {sandbox ? <sui.Item class="sim-menuitem thin portrait only" textClass="landscape only" text={lf("Simulator") } icon={simActive && this.state.running ? "stop" : "play"} active={simActive} onClick={() => this.openSimView() } title={!simActive ? lf("Show Simulator") : runTooltip} /> : undefined }
                                 <sui.Item class="blocks-menuitem" textClass="landscape only" text={lf("Blocks") } icon="puzzle" active={blockActive} onClick={() => this.openBlocks() } title={lf("Convert code to Blocks") } />
                                 <sui.Item class="javascript-menuitem" textClass="landscape only" text={lf("JavaScript") } icon="align left" active={javascriptActive} onClick={() => this.openJavaScript() } title={lf("Convert code to JavaScript") } />
@@ -1657,7 +1659,7 @@ ${compileService ? `<p>${lf("{0} version:", "C++ runtime")} <a href="${Util.html
                     <div id="filelist" className="ui items" role="complementary">
                         <div id="boardview" className={`ui vertical editorFloat`}>
                         </div>
-                        { !isHeadless ? <div className="ui item grid centered portrait hide simtoolbar">
+                        { !junior && !isHeadless ? <div className="ui item grid centered portrait hide simtoolbar">
                             <div className={`ui icon buttons ${this.state.fullscreen ? 'massive' : ''}`} style={{ padding: "0" }}>
                                 {make ? <sui.Button icon='configure' class="fluid sixty secondary" text={lf("Make") } title={makeTooltip} onClick={() => this.openInstructions() } /> : undefined}
                                 {run ? <sui.Button key='runbtn' class={`play-button ${this.state.running ? "stop" : "play"}`} icon={this.state.running ? "stop" : "play"} title={runTooltip} onClick={() => this.startStopSimulator() } /> : undefined}

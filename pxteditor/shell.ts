@@ -46,4 +46,8 @@ namespace pxt.shell {
         return isSandboxMode()
             && !/[?&]edit=1/i.test(window.location.href);
     }
+
+    export function isJunior() {
+        return /[?&]junior=1/i.test(window.location.href);
+    }
 }
