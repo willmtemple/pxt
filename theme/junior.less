@@ -1,0 +1,33 @@
+
+
+/* Layout */
+.junior #maineditor {
+    left: @juniorSimulatorWidth;
+}
+
+.junior #filelist, .junior #downloadArea {
+    min-width: @juniorSimulatorWidth;
+    max-width: @juniorSimulatorWidth;
+}
+
+
+/* <= Small Monitor (Mobile + Tablet + Small Monitor) */
+@media only screen and (max-width: @largestSmallMonitor) {
+    /* Layout */
+    .junior #maineditor {
+        left:@simulatorWidthSmall;
+    }
+    .junior #filelist, .junior #downloadArea {
+        min-width:@simulatorWidthSmall;
+        max-width:@simulatorWidthSmall;
+    }
+}
+
+/* <= Tablet (Mobile + Tablet) */
+@media only screen and (max-width: @largestTabletScreen) {
+    /* Layout */
+    .junior #maineditor {
+        left: 0;
+        right:0;
+    }
+}
