@@ -1578,6 +1578,7 @@ ${compileService ? `<p>${lf("{0} version:", "C++ runtime")} <a href="${Util.html
             showSideDoc ? 'sideDocs' : '',
             pxt.shell.layoutTypeClass(),
             inTutorial ? 'tutorial' : '',
+            junior ? 'junior' : '',
             pxt.options.light ? 'light' : '',
             pxt.BrowserUtils.isTouchEnabled() ? 'has-touch' : '',
             hideMenuBar ? 'hideMenuBar' : '',
@@ -1954,6 +1955,8 @@ function initTheme() {
             if (boardDef.outlineImage) boardDef.outlineImage = patchCdn(boardDef.outlineImage)
         }
     }
+    if (pxt.shell.isJunior())
+        Util.jsonMergeFrom(theme, pxt.appTarget.juniorAppTheme);
 }
 
 function parseHash(): { cmd: string; arg: string } {

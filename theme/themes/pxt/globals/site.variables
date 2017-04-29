@@ -76,6 +76,13 @@
 @simulatorWidthSmall: 20rem;
 
 /*-------------------
+   Junior mode
+--------------------*/
+
+@juniorSimulatorWidth: 40rem;
+@juniorSimulatorWidthSmall: 23rem;
+
+/*-------------------
    Background
 --------------------*/
 

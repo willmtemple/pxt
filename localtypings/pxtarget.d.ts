@@ -35,6 +35,7 @@ declare namespace pxt {
         appTheme: AppTheme;
         compileService?: TargetCompileService;
         analytics?: AppAnalytics;
+        juniorAppTheme: AppTheme;
     }
 
     interface AppView {
