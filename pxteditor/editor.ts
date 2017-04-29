@@ -64,19 +64,6 @@ namespace pxt.editor {
         temporary?: boolean;
     }
 
-    export interface ProjectFilters {
-        namespaces?: { [index: string]: FilterState; }; // Disabled = 2, Hidden = 0, Visible = 1
-        blocks?: { [index: string]: FilterState; }; // Disabled = 2, Hidden = 0, Visible = 1
-        fns?: { [index: string]: FilterState; }; // Disabled = 2, Hidden = 0, Visible = 1
-        defaultState?: FilterState; // hide, show or disable all by default
-    }
-
-    export enum FilterState {
-        Hidden = 0,
-        Visible = 1,
-        Disabled = 2
-    }
-
     export interface TutorialOptions {
         tutorial?: string; // tutorial
         tutorialName?: string; // tutorial title

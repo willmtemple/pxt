@@ -512,8 +512,13 @@ export class Editor extends srceditor.Editor {
         if (this.currFile && this.currFile != file) {
             this.filterToolbox(null);
         }
-        if (this.parent.state.filters) {
-            this.filterToolbox(this.parent.state.filters);
+        let fs = this.parent.state.filters;
+        if (pxt.shell.isJunior() && pxt.appTarget.appTheme.juniorView && pxt.appTarget.appTheme.juniorView.filters) {
+            fs = Util.clone(fs || {})
+            Util.jsonMergeFrom(fs, pxt.appTarget.appTheme.juniorView.filters)
+        }
+        if (fs) {
+            this.filterToolbox(fs);
         } else {
             this.filters = null;
         }

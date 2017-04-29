@@ -37,6 +37,10 @@ declare namespace pxt {
         analytics?: AppAnalytics;
     }
 
+    interface AppView {
+        filters?: pxt.editor.ProjectFilters;
+    }
+
     interface ProjectTemplate {
         id: string;
         config: PackageConfig;
@@ -187,6 +191,7 @@ declare namespace pxt {
         extendEditor?: boolean; // whether a target specific editor.js is loaded
         highContrast?: boolean; // simulator has a high contrast mode
         selectLanguage?: boolean; // add language picker to settings menu
+        juniorView?: AppView;
     }
 
     interface DocMenuEntry {
@@ -214,6 +219,21 @@ declare namespace pxt {
         bundleddirs: string[];
         versions: TargetVersions;
     }
+}
+
+declare namespace pxt.editor {
+    interface ProjectFilters {
+        namespaces?: { [index: string]: FilterState; }; // Disabled = 2, Hidden = 0, Visible = 1
+        blocks?: { [index: string]: FilterState; }; // Disabled = 2, Hidden = 0, Visible = 1
+        fns?: { [index: string]: FilterState; }; // Disabled = 2, Hidden = 0, Visible = 1
+        defaultState?: FilterState; // hide, show or disable all by default
+    }
+
+    enum FilterState {
+        Hidden = 0,
+        Visible = 1,
+        Disabled = 2
+    }    
 }
 
 declare namespace ts.pxtc {
