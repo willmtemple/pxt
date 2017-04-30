@@ -171,7 +171,10 @@ namespace pxt.blocks {
     }
 
     function getColour(colour: string | number) {
-        return Blockly.PXTUtils.fadeColour(colour as string, 0.8, true);
+        if (pxt.shell.isJunior()) {
+            return Blockly.PXTUtils.fadeColour(colour as string, 0.8, true);
+        }
+        return colour;
     }
 
     function injectToolbox(tb: Element, info: pxtc.BlocksInfo, fn: pxtc.SymbolInfo, block: HTMLElement, showCategories = CategoryMode.Basic) {
@@ -204,10 +207,10 @@ namespace pxt.blocks {
                     category = createCategoryElement(locCatName, catName, nsWeight);
 
                     if (nsn && nsn.attributes.color) {
-                        category.setAttribute("colour", getColour(nsn.attributes.color));
+                        category.setAttribute("colour", getColour(nsn.attributes.color) as string);
                     }
                     else if (blockColors[ns]) {
-                        category.setAttribute("colour", getColour(blockColors[ns].toString()));
+                        category.setAttribute("colour", getColour(blockColors[ns].toString()) as string);
                     }
                     if (nsn && nsn.attributes.icon) {
                         const nsnIconClassName = `blocklyTreeIcon${nsn.name.toLowerCase()}`.replace(/\s/g, '');
