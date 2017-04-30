@@ -13,7 +13,7 @@ import defaultJrToolbox from "./juniortoolbox"
 
 import CategoryMode = pxt.blocks.CategoryMode;
 import Util = pxt.Util;
-let lf = Util.lf
+const lf = Util.lf
 
 let iface: pxt.worker.Iface
 
@@ -27,7 +27,7 @@ export class Editor extends srceditor.Editor {
     blockInfo: pxtc.BlocksInfo;
     compilationResult: pxt.blocks.BlockCompilationResult;
     isFirstBlocklyLoad = true;
-    currentCommentOrWarning: B.Comment | B.Warning;
+    currentCommentOrWarning: Blockly.Comment | Blockly.Warning;
     selectedEventGroup: string;
     currentHelpCardType: string;
     showToolboxCategories: CategoryMode = CategoryMode.Basic;
@@ -348,9 +348,42 @@ export class Editor extends srceditor.Editor {
             else window.open(url, 'docs');
         }
 
-        this.prepareBlockly();
-
         this.isReady = true
+    }
+
+    loadBlocklyScripts(): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            if (typeof ((window as any).Blockly) === 'object') {
+                // blockly is already loaded
+                resolve();
+                return;
+            }
+
+            let blocklyPromises: Promise<void>[] = [];
+            if (/newblocks=1/i.test(window.location.href)) {
+                return pxt.BrowserUtils.loadScriptAsync('/blb/newblockly/blockly_compressed.js').then(() => {
+                    return pxt.BrowserUtils.loadScriptAsync('/blb/newblockly/blocks_compressed.js').then(() => {
+                        return pxt.BrowserUtils.loadScriptAsync('/blb/newblockly/msg/js/en.js').then(() => {
+                            return pxt.BrowserUtils.loadScriptAsync('/blb/pxtblocks.js').then(() => {
+                                resolve();
+                            });
+                        })
+                    })
+                })
+            } else {
+                return pxt.BrowserUtils.loadScriptAsync('/blb/blockly/blockly_compressed.js').then(() => {
+                    return pxt.BrowserUtils.loadScriptAsync('/blb/blockly/blocks_compressed.js').then(() => {
+                        return pxt.BrowserUtils.loadScriptAsync('/blb/blockly/msg/js/en.js').then(() => {
+                            return pxt.BrowserUtils.loadScriptAsync('/blb/pxtblocks.js').then(() => {
+                                resolve();
+                            });
+                        })
+                    })
+                })
+            }
+        }).then(() => {
+            this.prepareBlockly();
+        })
     }
 
     private prepareBlockly(showCategories = this.showToolboxCategories) {
@@ -506,25 +539,26 @@ export class Editor extends srceditor.Editor {
     loadFileAsync(file: pkg.File): Promise<void> {
         this.currSource = file.content;
         this.typeScriptSaveable = false;
-        this.setDiagnostics(file)
-        this.delayLoadXml = file.content;
-        this.editor.clearUndo();
+        return this.loadBlocklyScripts().then(() => {
+            this.setDiagnostics(file)
+            this.delayLoadXml = file.content;
+            this.editor.clearUndo();
 
-        if (this.currFile && this.currFile != file) {
-            this.filterToolbox(null);
-        }
-        let fs = this.parent.state.filters;
-        if (pxt.shell.isJunior() && pxt.appTarget.appTheme.juniorView && pxt.appTarget.appTheme.juniorView.filters) {
-            fs = Util.clone(fs || {})
-            Util.jsonMergeFrom(fs, pxt.appTarget.appTheme.juniorView.filters)
-        }
-        if (fs) {
-            this.filterToolbox(fs);
-        } else {
-            this.filters = null;
-        }
-        this.currFile = file;
-        return Promise.resolve();
+            if (this.currFile && this.currFile != file) {
+                this.filterToolbox(null);
+            }
+            let fs = this.parent.state.filters;
+            if (pxt.shell.isJunior() && pxt.appTarget.appTheme.juniorView && pxt.appTarget.appTheme.juniorView.filters) {
+                fs = Util.clone(fs || {})
+                Util.jsonMergeFrom(fs, pxt.appTarget.appTheme.juniorView.filters)
+            }
+            if (fs) {
+                this.filterToolbox(fs);
+            } else {
+                this.filters = null;
+            }
+            this.currFile = file;
+        })
     }
 
     public switchToTypeScript() {
@@ -591,14 +625,19 @@ export class Editor extends srceditor.Editor {
         const blocklyOptions: Blockly.ExtendedOptions = {
             toolbox: readOnly ? undefined : toolbox,
             scrollbars: true,
-            media: pxt.webConfig.commitCdnUrl + "blockly/media/",
+            media: pxt.webConfig.commitCdnUrl + (pxt.shell.isBlocksV2() ? "newblockly/media/" : "blockly/media/"),
             sound: true,
             trashcan: false,
             collapse: false,
             comments: true,
             disable: false,
             readOnly: readOnly,
-            toolboxType: pxt.appTarget.appTheme.coloredToolbox ? 'coloured' : pxt.appTarget.appTheme.invertedToolbox ? 'inverted' : 'normal',
+            // TODO: Add this interface to pxt-blockly main
+            toolboxOptions: {
+                border: true,
+                colour: pxt.appTarget.appTheme.coloredToolbox,
+                inverted: pxt.appTarget.appTheme.invertedToolbox
+            },
             zoom: {
                 enabled: false,
                 controls: false,

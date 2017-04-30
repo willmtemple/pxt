@@ -193,6 +193,7 @@ declare namespace pxt {
         highContrast?: boolean; // simulator has a high contrast mode
         selectLanguage?: boolean; // add language picker to settings menu
         juniorView?: AppView;
+        blocksVersion?: string; // version of blocks to use
     }
 
     interface DocMenuEntry {
