@@ -182,7 +182,7 @@ export default new DOMParser().parseFromString(`<xml id="blocklyToolboxDefinitio
                 </block>
             </category>
         </category>
-        <category colour="#996600" name="Text" nameid="text" category="46" iconclass="blocklyTreeIcontext" advanced="true">
+        <category colour="#FFB800" name="Text" nameid="text" category="46" iconclass="blocklyTreeIcontext" advanced="true">
             <block type="text"></block>
             <block type="text_length">
                 <value name="VALUE">
