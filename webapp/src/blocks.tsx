@@ -9,6 +9,7 @@ import * as compiler from "./compiler"
 import * as sui from "./sui";
 import * as data from "./data";
 import defaultToolbox from "./toolbox"
+import defaultJrToolbox from "./juniortoolbox"
 
 import CategoryMode = pxt.blocks.CategoryMode;
 import Util = pxt.Util;
@@ -209,7 +210,7 @@ export class Editor extends srceditor.Editor {
                 disagreeIcon: "checkmark",
                 size: "small"
             }).then(b => {
-                callback(b == 0);
+                callback(b == 1);
             })
         };
 
@@ -613,7 +614,7 @@ export class Editor extends srceditor.Editor {
 
     private getDefaultToolbox(showCategories = this.showToolboxCategories): HTMLElement {
         return showCategories !== CategoryMode.None ?
-            defaultToolbox.documentElement
+            (pxt.shell.isJunior() ? defaultJrToolbox.documentElement : defaultToolbox.documentElement)
             : new DOMParser().parseFromString(`<xml id="blocklyToolboxDefinition" style="display: none"></xml>`, "text/xml").documentElement;
     }
 

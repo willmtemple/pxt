@@ -8,14 +8,43 @@
 .junior #filelist, .junior #downloadArea {
     min-width: @juniorSimulatorWidth;
     max-width: @juniorSimulatorWidth;
+    background-color: @juniorSimulatorBackground;
+    left: 0;
 }
 
+/* Blockly */
+.junior svg.blocklySvg {
+    background-color: @juniorBlocklySvgColor !important;
+}
+.junior .blocklyFlyoutBackground {
+    fill: @juniorBlocklyFlyoutColor;
+    fill-opacity: @juniorBlocklyFlyoutOpacity !important;
+}
+.junior .blocklyToolboxDiv, .junior .monacoToolboxDiv {
+    background: @juniorBlocklyToolboxColor !important;
+    border-right: 1px solid #f2f2f2;
+}
 
+/* Editor toolbar */
+.junior #editortools {
+    background: transparent;
+}
+.junior #downloadArea {
+    left: 0;
+    right: 0;
+    max-width: 100%;
+    padding: 0; margin: 0;
+}
+.junior #downloadArea .ui.button.download-button {
+    border-radius: 0;
+    margin: 0;
+    height: @editorToolsCollapsedHeight;
+}
 /* <= Small Monitor (Mobile + Tablet + Small Monitor) */
 @media only screen and (max-width: @largestSmallMonitor) {
     /* Layout */
     .junior #maineditor {
-        left:@simulatorWidthSmall;
+        left: @simulatorWidthSmall;
     }
     .junior #filelist, .junior #downloadArea {
         min-width:@simulatorWidthSmall;
@@ -25,9 +54,16 @@
 
 /* <= Tablet (Mobile + Tablet) */
 @media only screen and (max-width: @largestTabletScreen) {
+    #editortools {
+        background: inherit;
+    }
     /* Layout */
     .junior #maineditor {
         left: 0;
         right:0;
+    }
+    .junior #filelist {
+        min-width: inherit;
+        max-width: inherit;
     }
 }

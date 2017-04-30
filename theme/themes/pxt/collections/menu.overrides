@@ -36,7 +36,19 @@
     background: rgba(255, 255, 255, 0.30);
 }
 
+/* Inverted background */
+.ui.inverted.menu {
+  background: @mainMenuInvertedBackground !important;
+}
+
+.junior .ui.inverted.menu {
+  background: @juniorMainMenuInvertedBackground !important;
+}
+
 /* Tutorial mode */
 .tutorial .ui.inverted.menu {
     background: @mainMenuTutorialBackground !important;
+}
+.junior .tutorial .ui.inverted.menu {
+    background: @juniorMainMenuTutorialBackground !important;
 }

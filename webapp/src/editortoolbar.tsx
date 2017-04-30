@@ -310,7 +310,7 @@ export class EditorToolbar extends data.Component<ISettingsProps, {}> {
                                 <sui.Button icon='save' class="small right attached editortools-btn save-editortools-btn" title={lf("Save") } onClick={() => this.saveFile('computer') } />
                             </div>
                         </div> : undefined }
-                    <div className="column right aligned">
+                    {showUndoRedo || showZoomControls ? <div className="column right aligned">
                         {showUndoRedo ?
                             <div className="ui icon small buttons">
                                 <sui.Button icon='undo' class={`editortools-btn undo-editortools-btn} ${!hasUndo ? 'disabled' : ''}`} title={lf("Undo") } onClick={() => this.undo('computer') } />
@@ -321,7 +321,7 @@ export class EditorToolbar extends data.Component<ISettingsProps, {}> {
                                 <sui.Button icon='zoom' class="editortools-btn zoomin-editortools-btn" title={lf("Zoom In") } onClick={() => this.zoomIn('computer') } />
                                 <sui.Button icon='zoom out' class="editortools-btn zoomout-editortools-btn" title={lf("Zoom Out") } onClick={() => this.zoomOut('computer') } />
                             </div> : undefined }
-                    </div>
+                    </div> : undefined }
                 </div>
             </div>
         </div>;

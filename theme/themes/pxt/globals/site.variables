@@ -76,19 +76,14 @@
 @simulatorWidthSmall: 20rem;
 
 /*-------------------
-   Junior mode
---------------------*/
-
-@juniorSimulatorWidth: 40rem;
-@juniorSimulatorWidthSmall: 23rem;
-
-/*-------------------
    Background
 --------------------*/
 
 @simulatorBackground: #fff;
 @editorToolsBackground: @simulatorBackground;
 @blocklySvgColor: #fff;
+@blocklyFlyoutColor: #fff;
+@blocklyFlyoutOpacity: 0.9;
 
 /*-------------------
    Full screen
@@ -111,3 +106,17 @@
 @blocklyToolboxColor: rgba(0, 0, 0, 0.05);
 @trashIconColor: @primaryColor;
 
+/*-------------------
+   Junior mode
+--------------------*/
+
+@juniorMainMenuInvertedBackground: lighten(@mainMenuInvertedBackground, 20%);
+@juniorMainMenuTutorialBackground: lighten(@mainMenuTutorialBackground, 20%);
+@juniorSimulatorWidth: 30rem;
+@juniorSimulatorWidthSmall: 23rem;
+@juniorSimulatorBackground: @simulatorBackground;
+@juniorEditorToolsBackground: @editorToolsBackground;
+@juniorBlocklySvgColor: @blocklySvgColor;
+@juniorBlocklyFlyoutColor: @blocklyFlyoutColor;
+@juniorBlocklyFlyoutOpacity: @blocklyFlyoutOpacity;
+@juniorBlocklyToolboxColor: @blocklyToolboxColor;

@@ -170,6 +170,10 @@ namespace pxt.blocks {
         return result;
     }
 
+    function getColour(colour: string | number) {
+        return Blockly.PXTUtils.fadeColour(colour as string, 0.8, true);
+    }
+
     function injectToolbox(tb: Element, info: pxtc.BlocksInfo, fn: pxtc.SymbolInfo, block: HTMLElement, showCategories = CategoryMode.Basic) {
         // identity function are just a trick to get an enum drop down in the block
         // while allowing the parameter to be a number
@@ -200,10 +204,10 @@ namespace pxt.blocks {
                     category = createCategoryElement(locCatName, catName, nsWeight);
 
                     if (nsn && nsn.attributes.color) {
-                        category.setAttribute("colour", nsn.attributes.color);
+                        category.setAttribute("colour", getColour(nsn.attributes.color));
                     }
                     else if (blockColors[ns]) {
-                        category.setAttribute("colour", blockColors[ns].toString());
+                        category.setAttribute("colour", getColour(blockColors[ns].toString()));
                     }
                     if (nsn && nsn.attributes.icon) {
                         const nsnIconClassName = `blocklyTreeIcon${nsn.name.toLowerCase()}`.replace(/\s/g, '');
@@ -538,7 +542,7 @@ namespace pxt.blocks {
         }
 
         block.setTooltip(fn.attributes.jsDoc);
-        block.setColour(color);
+        block.setColour(getColour(color));
 
         parseFields(fn.attributes.block).map(field => {
             let i: any;
@@ -1177,7 +1181,7 @@ namespace pxt.blocks {
     function setHelpResources(block: any, id: string, name: string, tooltip: any, url: string, colour: string) {
         if (tooltip) block.setTooltip(tooltip);
         if (url) block.setHelpUrl(url);
-        if (colour) block.setColour(colour);
+        if (colour) block.setColour(getColour(colour));
 
         let tb = document.getElementById('blocklyToolboxDefinition');
         let xml: HTMLElement = tb ? tb.querySelector(`category block[type~='${id}']`) as HTMLElement : undefined;
@@ -1660,7 +1664,7 @@ namespace pxt.blocks {
         Blockly.Blocks[pxtc.TS_STATEMENT_TYPE] = {
             init: function () {
                 let that: Blockly.Block = this;
-                that.setColour("#717171")
+                that.setColour(getColour("#717171"))
                 that.setPreviousStatement(true);
                 that.setNextStatement(true);
 
