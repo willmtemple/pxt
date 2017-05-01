@@ -1957,7 +1957,7 @@ function initTheme() {
             if (boardDef.outlineImage) boardDef.outlineImage = patchCdn(boardDef.outlineImage)
         }
     }
-    if (pxt.shell.isJunior())
+    if (pxt.shell.isJunior() && pxt.appTarget.juniorAppTheme)
         Util.jsonMergeFrom(theme, pxt.appTarget.juniorAppTheme);
 }
 
