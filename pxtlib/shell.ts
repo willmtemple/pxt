@@ -48,6 +48,6 @@ namespace pxt.shell {
     }
 
     export function isJunior() {
-        return /[?&]junior=1/i.test(window.location.href);
+        return pxt.appTarget.juniorAppTheme && /[?&]junior=1/i.test(window.location.href);
     }
 }

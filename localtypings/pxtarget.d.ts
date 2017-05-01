@@ -35,11 +35,7 @@ declare namespace pxt {
         appTheme: AppTheme;
         compileService?: TargetCompileService;
         analytics?: AppAnalytics;
-        juniorAppTheme: AppTheme;
-    }
-
-    interface AppView {
-        filters?: pxt.editor.ProjectFilters;
+        juniorAppTheme?: AppTheme;
     }
 
     interface ProjectTemplate {
@@ -192,7 +188,7 @@ declare namespace pxt {
         extendEditor?: boolean; // whether a target specific editor.js is loaded
         highContrast?: boolean; // simulator has a high contrast mode
         selectLanguage?: boolean; // add language picker to settings menu
-        juniorView?: AppView;
+        filters?: pxt.editor.ProjectFilters;
     }
 
     interface DocMenuEntry {

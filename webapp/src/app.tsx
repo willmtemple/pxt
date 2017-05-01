@@ -531,7 +531,7 @@ export class ProjectView
         logs.clear();
         this.setState({
             showFiles: false,
-            filters: filters
+            filters: this.defaultFilters(filters)
         })
         return pkg.loadPkgAsync(h.id)
             .then(() => {
@@ -1467,6 +1467,15 @@ ${compileService ? `<p>${lf("{0} version:", "C++ runtime")} <a href="${Util.html
             .done(() => core.hideLoading());
     }
 
+    defaultFilters(filters?: pxt.editor.ProjectFilters) {
+        if (!pxt.appTarget.appTheme.filters) return filters;
+        if (!filters) return pxt.appTarget.appTheme.filters;
+
+        const f = Util.clone(pxt.appTarget.appTheme.filters);
+        Util.jsonMergeFrom(f, filters);
+        return f;
+    }
+
     exitTutorialAsync(keep?: boolean) {
         // tutorial project is temporary, no need to delete
         let curr = pkg.mainEditorPkg().header;
@@ -1476,7 +1485,7 @@ ${compileService ? `<p>${lf("{0} version:", "C++ runtime")} <a href="${Util.html
         } else {
             curr.temporary = false;
         }
-        this.setState({ active: false, filters: undefined });
+        this.setState({ active: false, filters: this.defaultFilters() });
         return workspace.saveAsync(curr, {})
             .then(() => { return keep ? workspace.installAsync(curr, files) : Promise.resolve(null); })
             .then(() => {
@@ -1957,8 +1966,10 @@ function initTheme() {
             if (boardDef.outlineImage) boardDef.outlineImage = patchCdn(boardDef.outlineImage)
         }
     }
-    if (pxt.shell.isJunior())
+    if (pxt.shell.isJunior()) {
+        pxt.debug(`merging junior theme`);
         Util.jsonMergeFrom(theme, pxt.appTarget.juniorAppTheme);
+    }
 }
 
 function parseHash(): { cmd: string; arg: string } {
