@@ -542,7 +542,7 @@ export class ProjectView
                 let e = this.settings.fileHistory.filter(e => e.id == h.id)[0]
                 let main = pkg.getEditorPkg(pkg.mainPkg)
                 let file = main.getMainFile()
-                if (e)
+                if (e && !pxt.shell.isJunior())
                     file = main.lookupFile(e.name) || file
                 if (!e && h.editor == pxt.JAVASCRIPT_PROJECT_NAME && !pkg.File.tsFileNameRx.test(file.getName()) && file.getVirtualFileName())
                     file = main.lookupFile("this/" + file.getVirtualFileName()) || file;
