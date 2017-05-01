@@ -609,9 +609,10 @@ export class Editor extends srceditor.Editor {
     }
 
     private getDefaultToolbox(showCategories = this.showToolboxCategories): HTMLElement {
-        return showCategories !== CategoryMode.None ?
-            (pxt.shell.isJunior() ? defaultJrToolbox.documentElement : defaultToolbox.documentElement)
-            : new DOMParser().parseFromString(`<xml id="blocklyToolboxDefinition" style="display: none"></xml>`, "text/xml").documentElement;
+        return pxt.shell.isJunior() ? defaultJrToolbox.documentElement
+            : showCategories !== CategoryMode.None
+                ? defaultToolbox.documentElement
+                : new DOMParser().parseFromString(`<xml id="blocklyToolboxDefinition" style="display: none"></xml>`, "text/xml").documentElement;
     }
 
     filterToolbox(filters?: pxt.editor.ProjectFilters, showCategories = this.showToolboxCategories): Element {
