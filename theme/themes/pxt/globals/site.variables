@@ -120,3 +120,6 @@
 @juniorBlocklyFlyoutColor: @blocklyFlyoutColor;
 @juniorBlocklyFlyoutOpacity: @blocklyFlyoutOpacity;
 @juniorBlocklyToolboxColor: @blocklyToolboxColor;
+
+@juniorDialogColor: lighten(@mainMenuInvertedBackground, 10%);
+@juniorDialogCardColor: @primaryColor;
