@@ -1606,7 +1606,6 @@ ${compileService ? `<p>${lf("{0} version:", "C++ runtime")} <a href="${Util.html
                                         : <span className="name">{targetTheme.name}</span>}
                                     {targetTheme.portraitLogo ? (<a className="ui" target="_blank" href={targetTheme.logoUrl}><img className='ui mini image portrait only' src={Util.toDataUri(targetTheme.portraitLogo) } alt={`${targetTheme.boardName} Logo`}/></a>) : null}
                                 </span>
-                                {isJunior ? <sui.Item class="juniormenu" role="menuitem" icon="content large" onClick={() => this.openJuniorDialog() } /> : null}
                                 {!inTutorial && !isJunior ? <sui.Item class="openproject" role="menuitem" textClass="landscape only hidejunior" icon="folder open large" text={lf("Projects") } onClick={() => this.openProject() } /> : null}
                                 {!inTutorial && this.state.header && sharingEnabled ? <sui.Item class="shareproject" role="menuitem" textClass="widedesktop only" text={lf("Share") } icon="share alternate large" onClick={() => this.embed() } /> : null}
                                 {inTutorial ? <sui.Item class="tutorialname" role="menuitem" textClass="landscape only" text={tutorialOptions.tutorialName} /> : null}
@@ -1651,6 +1650,7 @@ ${compileService ? `<p>${lf("{0} version:", "C++ runtime")} <a href="${Util.html
                                 {!sandbox && gettingStarted ? <span className="ui item tablet only"><sui.Button class="small getting-started-btn" title={gettingStartedTooltip} text={lf("Getting Started") } onClick={() => this.gettingStarted() } /></span> : undefined}
 
                                 {inTutorial ? <sui.Item role="menuitem" icon="external" text={lf("Exit tutorial") } textClass="landscape only" onClick={() => this.exitTutorial() } /> : undefined}
+                                {isJunior ? <sui.Item class="juniormenu" role="menuitem" icon="content large" onClick={() => this.openJuniorDialog() } /> : null}
 
                                 {!sandbox ? <a id="organization" href={targetTheme.organizationUrl} target="blank" className="ui item logo" onClick={() => pxt.tickEvent("menu.org") }>
                                     {targetTheme.organizationWideLogo || targetTheme.organizationLogo
