@@ -171,9 +171,9 @@ namespace pxt.blocks {
     }
 
     function getColour(colour: string | number) {
-        if (pxt.shell.isJunior()) {
-            return Blockly.PXTUtils.fadeColour(colour as string, 0.95, true);
-        }
+       // if (pxt.shell.isJunior()) {
+       //     return Blockly.PXTUtils.fadeColour(colour as string, 0.95, true);
+        //}
         return colour;
     }
 

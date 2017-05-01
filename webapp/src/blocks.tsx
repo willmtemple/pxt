@@ -30,7 +30,7 @@ export class Editor extends srceditor.Editor {
     currentCommentOrWarning: B.Comment | B.Warning;
     selectedEventGroup: string;
     currentHelpCardType: string;
-    showToolboxCategories: CategoryMode = CategoryMode.Basic;
+    showToolboxCategories: CategoryMode = pxt.shell.isJunior() ? CategoryMode.None : CategoryMode.Basic;
     cachedToolbox: string;
     filters: pxt.editor.ProjectFilters;
 
