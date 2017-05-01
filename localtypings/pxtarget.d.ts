@@ -220,17 +220,11 @@ declare namespace pxt {
 
 declare namespace pxt.editor {
     interface ProjectFilters {
-        namespaces?: { [index: string]: FilterState; }; // Disabled = 2, Hidden = 0, Visible = 1
-        blocks?: { [index: string]: FilterState; }; // Disabled = 2, Hidden = 0, Visible = 1
-        fns?: { [index: string]: FilterState; }; // Disabled = 2, Hidden = 0, Visible = 1
-        defaultState?: FilterState; // hide, show or disable all by default
+        namespaces?: { [index: string]: number; }; // Disabled = 2, Hidden = 0, Visible = 1
+        blocks?: { [index: string]: number; }; // Disabled = 2, Hidden = 0, Visible = 1
+        fns?: { [index: string]: number; }; // Disabled = 2, Hidden = 0, Visible = 1
+        defaultState?: number; // hide, show or disable all by default
     }
-
-    enum FilterState {
-        Hidden = 0,
-        Visible = 1,
-        Disabled = 2
-    }    
 }
 
 declare namespace ts.pxtc {
