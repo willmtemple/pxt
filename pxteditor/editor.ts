@@ -135,6 +135,8 @@ namespace pxt.editor {
 
         startTutorial(tutorialId: string): void;
 
+        openProject(tab?: string): void;
+
         addPackage(): void;
         typecheckNow(): void;
 

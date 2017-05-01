@@ -39,7 +39,7 @@ export class JuniorDialog extends data.Component<ISettingsProps, JuniorDialogSta
 
     openMyProjects() {
         pxt.tickEvent("junior.myprojects");
-        //this.props.parent.openProject();
+        this.props.parent.openProject();
     }
 
     openCreateNew() {
