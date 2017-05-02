@@ -1978,6 +1978,9 @@ function initTheme() {
     if (pxt.shell.isJunior()) {
         pxt.debug(`merging junior theme`);
         Util.jsonMergeFrom(theme, pxt.appTarget.juniorAppTheme);
+
+        if(pxt.appTarget.juniorprj)
+            pxt.appTarget.blocksprj = pxt.appTarget.juniorprj;
     }
 }
 

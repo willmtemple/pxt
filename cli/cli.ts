@@ -1482,7 +1482,8 @@ ${license}
 function updateDefaultProjects(cfg: pxt.TargetBundle) {
     let defaultProjects = [
         pxt.BLOCKS_PROJECT_NAME,
-        pxt.JAVASCRIPT_PROJECT_NAME
+        pxt.JAVASCRIPT_PROJECT_NAME,
+        pxt.JUNIOR_PROJECT_NAME
     ];
 
     nodeutil.allFiles("libs", 1, /*allowMissing*/ false, /*includeDirs*/ true)

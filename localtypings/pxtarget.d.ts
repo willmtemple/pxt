@@ -29,6 +29,7 @@ declare namespace pxt {
         simulator?: AppSimulator;
         blocksprj: ProjectTemplate;
         tsprj: ProjectTemplate;
+        juniorprj?: ProjectTemplate;
         runtime?: RuntimeOptions;
         compile: ts.pxtc.CompileTarget;
         serial?: AppSerial;
