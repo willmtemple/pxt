@@ -867,4 +867,5 @@ namespace pxt {
     export const CLOUD_ID = "pxt/"
     export const BLOCKS_PROJECT_NAME = "blocksprj";
     export const JAVASCRIPT_PROJECT_NAME = "tsprj";
+    export const JUNIOR_PROJECT_NAME = "juniorprj";
 }
