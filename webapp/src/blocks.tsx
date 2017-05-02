@@ -30,7 +30,7 @@ export class Editor extends srceditor.Editor {
     currentCommentOrWarning: Blockly.Comment | Blockly.Warning;
     selectedEventGroup: string;
     currentHelpCardType: string;
-    showToolboxCategories: CategoryMode = CategoryMode.Basic;
+    showToolboxCategories: CategoryMode = pxt.shell.isJunior() ? CategoryMode.None : CategoryMode.Basic;
     cachedToolbox: string;
     filters: pxt.editor.ProjectFilters;
 
@@ -545,13 +545,9 @@ export class Editor extends srceditor.Editor {
             this.editor.clearUndo();
 
             if (this.currFile && this.currFile != file) {
-                this.filterToolbox(null);
+            this.filterToolbox(null);
             }
             let fs = this.parent.state.filters;
-            if (pxt.shell.isJunior() && pxt.appTarget.appTheme.juniorView && pxt.appTarget.appTheme.juniorView.filters) {
-                fs = Util.clone(fs || {})
-                Util.jsonMergeFrom(fs, pxt.appTarget.appTheme.juniorView.filters)
-            }
             if (fs) {
                 this.filterToolbox(fs);
             } else {
@@ -652,9 +648,10 @@ export class Editor extends srceditor.Editor {
     }
 
     private getDefaultToolbox(showCategories = this.showToolboxCategories): HTMLElement {
-        return showCategories !== CategoryMode.None ?
-            (pxt.shell.isJunior() ? defaultJrToolbox.documentElement : defaultToolbox.documentElement)
-            : new DOMParser().parseFromString(`<xml id="blocklyToolboxDefinition" style="display: none"></xml>`, "text/xml").documentElement;
+        return pxt.shell.isJunior() ? defaultJrToolbox.documentElement
+            : showCategories !== CategoryMode.None
+                ? defaultToolbox.documentElement
+                : new DOMParser().parseFromString(`<xml id="blocklyToolboxDefinition" style="display: none"></xml>`, "text/xml").documentElement;
     }
 
     filterToolbox(filters?: pxt.editor.ProjectFilters, showCategories = this.showToolboxCategories): Element {

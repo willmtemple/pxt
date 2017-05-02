@@ -894,7 +894,7 @@ namespace ts.pxtc.BrowserImpl {
 
             client = new XMLHttpRequest();
             if (options.responseArrayBuffer)
-               client.responseType = "arraybuffer";
+                client.responseType = "arraybuffer";
             client.onreadystatechange = () => {
                 if (resolved) return // Safari/iOS likes to call this thing more than once
 

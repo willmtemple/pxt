@@ -1,4 +1,10 @@
 namespace pxt.editor {
+    export enum FilterState {
+        Hidden = 0,
+        Visible = 1,
+        Disabled = 2
+    }
+
     export interface EditorMessage {
         /**
          * Constant identifier

@@ -1,42 +1,19 @@
 export default new DOMParser().parseFromString(`<xml id="blocklyToolboxDefinition" style="display: none">
-        <category name="Loops" nameid="loops" colour="#1DDF1D" category="50" iconclass="blocklyTreeIconloops">
-            <block type="controls_repeat_ext">
+            <block type="controls_repeat_ext" colour="#1DDF1D" gap="8">
                 <value name="TIMES">
                     <shadow type="math_number">
                         <field name="NUM">4</field>
                     </shadow>
                 </value>
             </block>
-            <block type="device_while">
-                <value name="COND">
-                    <shadow type="logic_boolean"></shadow>
-                </value>
-            </block>
-            <block type="controls_simple_for">
-                <value name="TO">
-                    <shadow type="math_number">
-                        <field name="NUM">4</field>
-                    </shadow>
-                </value>
-            </block>
-        </category>
-        <category name="Logic" nameid="logic" colour="#00BDCA" category="49" iconclass="blocklyTreeIconlogic">
-            <block type="controls_if" gap="8">
+            <block type="controls_if" gap="8" colour="#00BDCA">
                 <value name="IF0">
                     <shadow type="logic_boolean">
                         <field name="BOOL">TRUE</field>
                     </shadow>
                 </value>
             </block>
-            <block type="controls_if" gap="8">
-                <mutation else="1"></mutation>
-                <value name="IF0">
-                    <shadow type="logic_boolean">
-                        <field name="BOOL">TRUE</field>
-                    </shadow>
-                </value>
-            </block>
-            <block type="logic_compare" gap="8">
+            <block type="logic_compare" gap="8" colour="#00BDCA">
                 <value name="A">
                     <shadow type="math_number">
                         <field name="NUM">0</field>
@@ -48,8 +25,9 @@ export default new DOMParser().parseFromString(`<xml id="blocklyToolboxDefinitio
                     </shadow>
                 </value>
             </block>
-            <block type="logic_compare">
-                <field name="OP">LT</field>
+            <block type="logic_operation" gap="8" colour="#00BDCA"></block>
+            <block type="logic_negate" colour="#00BDCA"></block>
+            <block type="math_arithmetic" gap="8" colour="#CB44CD">
                 <value name="A">
                     <shadow type="math_number">
                         <field name="NUM">0</field>
@@ -61,148 +39,11 @@ export default new DOMParser().parseFromString(`<xml id="blocklyToolboxDefinitio
                     </shadow>
                 </value>
             </block>
-            <block type="logic_operation" gap="8"></block>
-            <block type="logic_operation" gap="8">
-                <field name="OP">OR</field>
-            </block>
-            <block type="logic_negate"></block>
-            <block type="logic_boolean" gap="8"></block>
-            <block type="logic_boolean">
-                <field name="BOOL">FALSE</field>
-            </block>
-        </category>
-        <category name="Variables" nameid="variables" colour="#FF0000" custom="VARIABLE" category="48" iconclass="blocklyTreeIconvariables">
-        </category>
-        <category name="Math" nameid="math" colour="#CB44CD" category="47" iconclass="blocklyTreeIconmath" expandedclass="blocklyTreeIconmath">
-            <block type="math_arithmetic" gap="8">
-                <value name="A">
-                    <shadow type="math_number">
-                        <field name="NUM">0</field>
-                    </shadow>
-                </value>
-                <value name="B">
-                    <shadow type="math_number">
-                        <field name="NUM">0</field>
-                    </shadow>
-                </value>
-            </block>
-            <block type="math_arithmetic" gap="8">
-                <value name="A">
-                    <shadow type="math_number">
-                        <field name="NUM">0</field>
-                    </shadow>
-                </value>
-                <value name="B">
-                    <shadow type="math_number">
-                        <field name="NUM">0</field>
-                    </shadow>
-                </value>
-                <field name="OP">MINUS</field>
-            </block>
-            <block type="math_arithmetic" gap="8">
-                <value name="A">
-                    <shadow type="math_number">
-                        <field name="NUM">0</field>
-                    </shadow>
-                </value>
-                <value name="B">
-                    <shadow type="math_number">
-                        <field name="NUM">0</field>
-                    </shadow>
-                </value>
-                <field name="OP">MULTIPLY</field>
-            </block>
-            <block type="math_arithmetic" gap="8">
-                <value name="A">
-                    <shadow type="math_number">
-                        <field name="NUM">0</field>
-                    </shadow>
-                </value>
-                <value name="B">
-                    <shadow type="math_number">
-                        <field name="NUM">0</field>
-                    </shadow>
-                </value>
-                <field name="OP">DIVIDE</field>
-            </block>
-            <block type="math_number" gap="8">
-                <field name="NUM">0</field>
-            </block>
-            <block type="device_random" gap="8">
+            <block type="device_random" gap="8" colour="#CB44CD">
                 <value name="limit">
                     <shadow type="math_number">
                         <field name="NUM">4</field>
                     </shadow>
                 </value>
             </block>
-            <category colour="#CB44CD" name="More" nameid="more" iconclass="blocklyTreeIconmore" expandedclass="blocklyTreeIconmore">
-                <block type="math_modulo">
-                    <value name="DIVIDEND">
-                        <shadow type="math_number">
-                            <field name="NUM">0</field>
-                        </shadow>
-                    </value>
-                    <value name="DIVISOR">
-                        <shadow type="math_number">
-                            <field name="NUM">1</field>
-                        </shadow>
-                    </value>
-                </block>
-                <block type="math_op2" gap="8">
-                    <value name="x">
-                        <shadow type="math_number">
-                            <field name="NUM">0</field>
-                        </shadow>
-                    </value>
-                    <value name="y">
-                        <shadow type="math_number">
-                            <field name="NUM">0</field>
-                        </shadow>
-                    </value>
-                </block>
-                <block type="math_op2" gap="8">
-                    <value name="x">
-                        <shadow type="math_number">
-                            <field name="NUM">0</field>
-                        </shadow>
-                    </value>
-                    <value name="y">
-                        <shadow type="math_number">
-                            <field name="NUM">0</field>
-                        </shadow>
-                    </value>
-                    <field name="op">max</field>
-                </block>
-                <block type="math_op3">
-                    <value name="x">
-                        <shadow type="math_number">
-                            <field name="NUM">0</field>
-                        </shadow>
-                    </value>
-                </block>
-            </category>
-        </category>
-        <category colour="#FFB800" name="Text" nameid="text" category="46" iconclass="blocklyTreeIcontext" advanced="true">
-            <block type="text"></block>
-            <block type="text_length">
-                <value name="VALUE">
-                    <shadow type="text">
-                        <field name="TEXT">abc</field>
-                    </shadow>
-                </value>
-            </block>
-            <block type="text_join">
-                <mutation items="2"></mutation>
-                <value name="ADD0">
-                    <shadow type="text">
-                        <field name="TEXT"></field>
-                    </shadow>
-                </value>
-                <value name="ADD1">
-                    <shadow type="text">
-                        <field name="TEXT"></field>
-                    </shadow>
-                </value>
-            </block>
-        </category>
     </xml>`, "text/xml");
