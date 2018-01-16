@@ -79,7 +79,7 @@ namespace ts.pxtc.decompiler {
         "Math.abs": { blockId: "math_op3", block: "absolute of %x" },
         "Math.min": { blockId: "math_op2", block: "of %x|and %y" },
         "Math.max": { blockId: "math_op2", block: "of %x|and %y" }
-     }
+    }
 
     interface BlocklyNode {
         kind: string;
@@ -177,38 +177,38 @@ namespace ts.pxtc.decompiler {
 
 
     class LSHost implements ts.LanguageServiceHost {
-            constructor(private p: ts.Program) {}
+        constructor(private p: ts.Program) { }
 
-            getCompilationSettings(): ts.CompilerOptions {
-                const opts = this.p.getCompilerOptions();
-                opts.noLib = true;
-                return opts;
-            }
+        getCompilationSettings(): ts.CompilerOptions {
+            const opts = this.p.getCompilerOptions();
+            opts.noLib = true;
+            return opts;
+        }
 
-            getNewLine(): string { return "\n" }
+        getNewLine(): string { return "\n" }
 
-            getScriptFileNames(): string[] {
-                return this.p.getSourceFiles().map(f => f.fileName);
-            }
+        getScriptFileNames(): string[] {
+            return this.p.getSourceFiles().map(f => f.fileName);
+        }
 
-            getScriptVersion(fileName: string): string {
-                return "0";
-            }
+        getScriptVersion(fileName: string): string {
+            return "0";
+        }
 
-            getScriptSnapshot(fileName: string): ts.IScriptSnapshot {
-                const f = this.p.getSourceFile(fileName);
-                return {
-                    getLength: () => f.getFullText().length,
-                    getText: () => f.getFullText(),
-                    getChangeRange: () => undefined
-                };
-            }
+        getScriptSnapshot(fileName: string): ts.IScriptSnapshot {
+            const f = this.p.getSourceFile(fileName);
+            return {
+                getLength: () => f.getFullText().length,
+                getText: () => f.getFullText(),
+                getChangeRange: () => undefined
+            };
+        }
 
-            getCurrentDirectory(): string { return "."; }
+        getCurrentDirectory(): string { return "."; }
 
-            getDefaultLibFileName(options: ts.CompilerOptions): string { return ""; }
+        getDefaultLibFileName(options: ts.CompilerOptions): string { return ""; }
 
-            useCaseSensitiveFileNames(): boolean { return true; }
+        useCaseSensitiveFileNames(): boolean { return true; }
     }
 
     /**
@@ -379,7 +379,7 @@ ${output}</xml>`;
         }
 
         function countBlock() {
-            emittedBlocks ++;
+            emittedBlocks++;
             if (emittedBlocks > MAX_BLOCKS) {
                 let e = new Error(Util.lf("Could not decompile because the script is too large"));
                 (<any>e).programTooLarge = true;
@@ -787,14 +787,22 @@ ${output}</xml>`;
 
             let value = U.htmlEscape(callInfo.attrs.blockId || callInfo.qName);
 
-            const [parent, ] = getParent(n);
+            const [parent,] = getParent(n);
             const parentCallInfo: pxtc.CallInfo = parent && (parent as any).callInfo;
             if (callInfo.attrs.blockIdentity && !(parentCallInfo && parentCallInfo.qName === callInfo.attrs.blockIdentity)) {
                 if (callInfo.attrs.enumval && parentCallInfo && parentCallInfo.attrs.useEnumVal) {
                     value = callInfo.attrs.enumval;
                 }
 
-                let idfn = blocksInfo.apis.byQName[callInfo.attrs.blockIdentity];
+                const idfn = blocksInfo.apis.byQName[callInfo.attrs.blockIdentity];
+                if (!idfn) {
+                    // the identity function name is not found
+                    console.error(`blockIdentity id ${callInfo.attrs.blockIdentity} not found`)
+                    return {
+                        kind: "text",
+                        value
+                    };
+                }
                 let f = /%([a-zA-Z0-9_]+)/.exec(idfn.attributes.block);
                 const r = mkExpr(U.htmlEscape(idfn.attributes.blockId));
                 r.fields = [{
@@ -1066,7 +1074,7 @@ ${output}</xml>`;
             }
             else {
                 r = mkStmt("controls_simple_for");
-                r.fields =  [getField("VAR", renamed)];
+                r.fields = [getField("VAR", renamed)];
                 r.inputs = [];
                 r.handlers = [];
 
@@ -1105,7 +1113,7 @@ ${output}</xml>`;
             const r = mkStmt("controls_for_of");
             r.inputs = [getValue("LIST", n.expression)];
             r.fields = [getField("VAR", renamed)];
-            r.handlers =  [{ name: "DO", statement: getStatementBlock(n.statement) }];
+            r.handlers = [{ name: "DO", statement: getStatementBlock(n.statement) }];
 
             return r
         }
@@ -1194,7 +1202,7 @@ ${output}</xml>`;
                     const name = getVariableName(node.expression as ts.Identifier);
                     if (env.declaredFunctions[name]) {
                         const r = mkStmt("procedures_callnoreturn");
-                        r.mutation = {"name": name};
+                        r.mutation = { "name": name };
                         return r;
                     }
                     else {
@@ -1316,7 +1324,7 @@ ${output}</xml>`;
                             if (param.decompileLiterals) {
                                 let fieldBlock = getFieldBlock(param.type, param.fieldName, fieldText, true);
                                 if (param.paramShadowOptions) {
-                                    fieldBlock.mutation = {"customfield": Util.htmlEscape(JSON.stringify(param.paramShadowOptions))};
+                                    fieldBlock.mutation = { "customfield": Util.htmlEscape(JSON.stringify(param.paramShadowOptions)) };
                                 }
                                 v = mkValue(vName, fieldBlock, param.type);
                                 defaultV = false;
@@ -2229,31 +2237,31 @@ ${output}</xml>`;
     }
 
     function isOutputExpression(expr: ts.Expression): boolean {
-            switch (expr.kind) {
-                case SK.BinaryExpression:
-                    const tk = (expr as ts.BinaryExpression).operatorToken.kind;
-                    return tk != SK.PlusEqualsToken && tk != SK.MinusEqualsToken && tk != SK.EqualsToken;
-                case SK.PrefixUnaryExpression: {
-                    let op = (expr as ts.PrefixUnaryExpression).operator;
-                    return op != SK.PlusPlusToken && op != SK.MinusMinusToken;
-                }
-                case SK.PostfixUnaryExpression: {
-                    let op = (expr as ts.PostfixUnaryExpression).operator;
-                    return op != SK.PlusPlusToken && op != SK.MinusMinusToken;
-                }
-                case SK.CallExpression:
-                    const callInfo: pxtc.CallInfo = (expr as any).callInfo
-                    assert(!!callInfo);
-                    return callInfo.isExpression;
-                case SK.ParenthesizedExpression:
-                case SK.NumericLiteral:
-                case SK.StringLiteral:
-                case SK.NoSubstitutionTemplateLiteral:
-                case SK.TrueKeyword:
-                case SK.FalseKeyword:
-                case SK.NullKeyword:
-                    return true;
-                default: return false;
+        switch (expr.kind) {
+            case SK.BinaryExpression:
+                const tk = (expr as ts.BinaryExpression).operatorToken.kind;
+                return tk != SK.PlusEqualsToken && tk != SK.MinusEqualsToken && tk != SK.EqualsToken;
+            case SK.PrefixUnaryExpression: {
+                let op = (expr as ts.PrefixUnaryExpression).operator;
+                return op != SK.PlusPlusToken && op != SK.MinusMinusToken;
             }
+            case SK.PostfixUnaryExpression: {
+                let op = (expr as ts.PostfixUnaryExpression).operator;
+                return op != SK.PlusPlusToken && op != SK.MinusMinusToken;
+            }
+            case SK.CallExpression:
+                const callInfo: pxtc.CallInfo = (expr as any).callInfo
+                assert(!!callInfo);
+                return callInfo.isExpression;
+            case SK.ParenthesizedExpression:
+            case SK.NumericLiteral:
+            case SK.StringLiteral:
+            case SK.NoSubstitutionTemplateLiteral:
+            case SK.TrueKeyword:
+            case SK.FalseKeyword:
+            case SK.NullKeyword:
+                return true;
+            default: return false;
         }
+    }
 }
