@@ -277,7 +277,7 @@ export function readPkgConfig(dir: string) {
     const fn = path.join(dir, pxt.CONFIG_NAME)
     const js: pxt.PackageConfig = readJson(fn)
     if (js.additionalFilePath) {
-        let addjson = path.join(dir, js.additionalFilePath, pxt.CONFIG_NAME)
+        const addjson = path.resolve(path.join(dir, js.additionalFilePath, pxt.CONFIG_NAME))
         pxt.debug("additional pxt.json: " + addjson)
         const js2: any = readJson(addjson)
         for (let k of Object.keys(js2)) {
