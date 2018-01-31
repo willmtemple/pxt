@@ -1284,13 +1284,16 @@ function maxMTimeAsync(dirs: string[]) {
 
 export interface BuildTargetOptions {
     packaged?: boolean;
+    libs?: boolean;
 }
 
 export function buildTargetAsync(parsed?: commandParser.ParsedCommand): Promise<void> {
     if (parsed && parsed.flags["cloud"]) {
         forceCloudBuild = true
     }
-    return internalBuildTargetAsync();
+    const ops: BuildTargetOptions = {};
+    ops.libs = parsed && !!parsed.flags["libs"];
+    return internalBuildTargetAsync(ops);
 }
 
 export function internalBuildTargetAsync(options: BuildTargetOptions = {}): Promise<void> {
@@ -1799,6 +1802,8 @@ function buildTargetCoreAsync(options: BuildTargetOptions = {}) {
         .then(() => forEachBundledPkgAsync((pkg, dirname) => {
             pxt.log(`building ${dirname}`);
             const isPrj = /prj$/.test(dirname);
+            const pkgName = path.basename(dirname);
+            const useNative = (isPrj || options.libs) && pkgName != "base" && pkgName != "core";
             const config = nodeutil.readPkgConfig(".")
             if (config.additionalFilePath) {
                 dirsToWatch.push(path.resolve(config.additionalFilePath));
@@ -1810,7 +1815,7 @@ function buildTargetCoreAsync(options: BuildTargetOptions = {}) {
                         cfg.bundledpkgs[path.basename(dirname)] = res
                     }
                 })
-                .then(() => testForBuildTargetAsync(isPrj))
+                .then(() => testForBuildTargetAsync(useNative))
                 .then((compileOpts) => {
                     // For the projects, we need to save the base HEX file to the offline HEX cache
                     if (isPrj && pxt.appTarget.compile.hasHex) {
@@ -4794,7 +4799,8 @@ function initCommands() {
         advanced: true,
         help: "Builds the current target",
         flags: {
-            cloud: { description: "forces build to happen in the cloud" }
+            cloud: { description: "forces build to happen in the cloud" },
+            libs: { description: "native build for all libraries" }
         }
     }, buildTargetAsync);
     p.defineCommand({
