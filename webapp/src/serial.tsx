@@ -8,6 +8,8 @@ import * as sui from "./sui"
 import * as codecard from "./codecard"
 import * as data from "./data";
 
+import * as Plotly from "plotly.js";
+
 import Cloud = pxt.Cloud
 import Util = pxt.Util
 
@@ -135,8 +137,7 @@ export class Editor extends srceditor.Editor {
             const variable = m[2] || '';
             const nvalue = parseFloat(m[3]);
             if (!isNaN(nvalue)) {
-                this.appendGraphEntry(niceSource, variable, nvalue, receivedTime)
-                return;
+                this.appendGraphEntry(niceSource, variable, nvalue, receivedTime);
             }
         }
 
