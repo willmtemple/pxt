@@ -106,6 +106,14 @@ export class Editor extends srceditor.Editor {
     }
 
     processEvent(ev: MessageEvent) {
+          Plotly.newPlot("serialCharts", [
+            {
+              x: ['giraffes', 'orangutans', 'monkeys'],
+              y: [20, 14, 23],
+              type: 'bar'
+            }
+          ]);
+        /*
         let msg = ev.data
         if (msg.type !== "serial") return;
         const smsg = msg as pxsim.SimulatorSerialMessage
@@ -116,6 +124,7 @@ export class Editor extends srceditor.Editor {
             return;
         }
         this.processMessage(smsg);
+        */
     }
 
     processMessage(smsg: pxsim.SimulatorSerialMessage) {
