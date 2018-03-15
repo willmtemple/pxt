@@ -19,19 +19,22 @@ export class TestHost implements pxt.Host {
         }
         if (module.id == "this") {
             if (filename == "pxt.json") {
+                const files = this.includeCommon ? [
+                    "main.blocks", //TODO: Probably don't want this
+                    "main.ts",
+                    "pxt-core.d.ts",
+                    "pxt-helpers.ts"
+                ] : [
+                        "main.blocks", //TODO: Probably don't want this
+                        "main.ts",
+                    ];
+                if (pxt.appTarget.compile.floatingPoint && this.includeCommon)
+                    files.push("pxt-floats.ts");
                 return JSON.stringify({
                     "name": this.name,
                     "dependencies": this.dependencies,
                     "description": "",
-                    "files": this.includeCommon ? [
-                        "main.blocks", //TODO: Probably don't want this
-                        "main.ts",
-                        "pxt-core.d.ts",
-                        "pxt-helpers.ts"
-                    ] : [
-                        "main.blocks", //TODO: Probably don't want this
-                        "main.ts",
-                    ]
+                    "files": files
                 })
             }
             else if (filename == "main.ts") {
@@ -77,6 +80,11 @@ export class TestHost implements pxt.Host {
         }
         else if (filename === "pxt-helpers.ts") {
             const contents = fs.readFileSync(path.resolve("libs", "pxt-common", "pxt-helpers.ts"), 'utf8');
+            this.writeFile(module, filename, contents);
+            return contents;
+        }
+        else if (filename === "pxt-floats.ts") {
+            const contents = fs.readFileSync(path.resolve("libs", "pxt-common", "pxt-floats.ts"), 'utf8');
             this.writeFile(module, filename, contents);
             return contents;
         }
