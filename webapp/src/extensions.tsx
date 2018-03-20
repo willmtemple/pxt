@@ -192,8 +192,8 @@ export class Extensions extends data.Component<ISettingsProps, ExtensionsState> 
         const frame = document.createElement('iframe') as HTMLIFrameElement;
         frame.className = `extension-frame extension-frame-${name}`;
         frame.allowFullscreen = true;
-        frame.setAttribute('sandbox', 'allow-same-origin allow-scripts');
-        frame.sandbox.value = "allow-scripts allow-same-origin"
+        frame.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-forms');
+        frame.sandbox.value = "allow-scripts allow-same-origin allow-forms"
         let frameUrl = '';
         frame.frameBorder = "0";
         frame.style.display = "none";
